@@ -1,0 +1,12 @@
+
+Hostname,IPV6,Status
+{% for host in groups['all'] %}
+{% with host_data = hostvars[host] %}
+{% if host_data.statusIPV6 is defined %}
+{{host_data.inventory_hostname}},{{ host_data.statusIPV6.stdout_lines | join(';') | trim }},Ok
+{% else %}
+{{host_data.inventory_hostname}}, , Bad
+{% endif %}
+{% endwith %}
+{% endfor %}
+
